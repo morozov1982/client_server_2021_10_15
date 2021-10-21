@@ -21,4 +21,60 @@
     c. Проверить работу программы через вызов функции write_to_csv().
 """
 
+import csv
+import os
+import re
 
+from chardet import detect
+
+DATA_DIR_NAME = 'data'
+OUTPUT_FILE_NAME = 'main_data.csv'
+HEADERS = ['Изготовитель системы', 'Название ОС', 'Код продукта', 'Тип системы']
+
+
+def find_value(content, phrase):
+    result = re.search(phrase + ":(.*)\n", content)
+    return result.groups()[0].strip() or None
+
+
+def get_encoded_content(file_path):
+    with open(file_path, 'rb') as file:
+        file_content = file.read()
+        file_encoding = detect(file_content)['encoding']
+        return file_content.decode(file_encoding)
+
+
+def get_data(file_names):
+    main_data = [HEADERS]
+    # os_prod_list, os_name_list, os_code_list, os_type_list - не пригодились
+
+    for list_num, file_name in enumerate(file_names, 1):
+        main_data.append([])
+        file_path = os.path.join(DATA_DIR_NAME, file_name)
+
+        encoded_content = get_encoded_content(file_path)
+
+        for header in HEADERS:
+            value = find_value(encoded_content, header)
+            main_data[list_num].append(value)
+
+    return main_data
+
+
+def write_to_csv(csv_link):
+    file_names = os.listdir(DATA_DIR_NAME)
+    data = get_data(file_names)
+    with open(csv_link, 'w', encoding='utf-8') as file:
+        file_writer = csv.writer(file)
+        for row in data:
+            file_writer.writerow(row)
+
+
+write_to_csv(OUTPUT_FILE_NAME)
+
+
+# ну и потренируемся в чтении ;-)
+with open(OUTPUT_FILE_NAME, 'r', encoding='utf-8') as file:
+    READER = csv.reader(file)
+    for row in READER:
+        print(row)
