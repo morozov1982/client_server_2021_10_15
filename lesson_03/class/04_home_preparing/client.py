@@ -62,7 +62,7 @@ def main():
     try:
         answer = process_ans(get_message(transport))
         print(answer)
-    except(ValueError, json.JSONDecodeError):
+    except (ValueError, json.JSONDecodeError):
         print('Не удалось декодировать сообщение сервера.')
 
 
