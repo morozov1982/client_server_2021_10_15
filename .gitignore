@@ -130,3 +130,5 @@ dmypy.json
 
 
 .idea/
+/lesson_05/examples/
+/lesson_05/practice/
