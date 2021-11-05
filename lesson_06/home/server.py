@@ -12,9 +12,12 @@ from common.utils import get_decoded_message, send_message
 from errors import IncorrectDataReceivedError
 import logs.server_log_config
 
+from decos import log
+
 SERVER_LOGGER = logging.getLogger('server')
 
 
+@log
 def check_client_data(data):
     """
     Обработчик сообщений от клиетов, принимает словарь -
@@ -33,7 +36,7 @@ def check_client_data(data):
     }
 
 
-# можно сказать, что скопипастил ;-)
+@log
 def args_parser():
     """
     Парсер аргументов командной строки

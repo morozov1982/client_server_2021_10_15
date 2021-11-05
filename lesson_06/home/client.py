@@ -13,10 +13,12 @@ from common.utils import get_decoded_message, send_message
 from errors import ReqFieldMissingError
 import logs.client_log_config
 
+from decos import log
 
 CLIENT_LOGGER = logging.getLogger('client')
 
 
+@log
 def request_user(port=DEFAULT_PORT, user_name='Guest'):
     """
     Функция генерирует запрос о присутствии клиента
@@ -37,6 +39,7 @@ def request_user(port=DEFAULT_PORT, user_name='Guest'):
     return request
 
 
+@log
 def get_server_response(data):
     """
     Функция разбирает ответ сервера
@@ -51,7 +54,7 @@ def get_server_response(data):
     raise ValueError
 
 
-# можно сказать, что просто переписал ;-)
+@log
 def args_parser():
     """
     Создаёт парсер аргументов командной строки

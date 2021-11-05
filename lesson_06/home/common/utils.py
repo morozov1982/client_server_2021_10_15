@@ -3,7 +3,10 @@
 import json
 from common.variables import MAX_PACKAGE_BYTES, DEFAULT_ENCODING
 
+from decos import log
 
+
+@log
 def get_decoded_message(data):
     """
     Утилита приёма и декодирования сообщения
@@ -25,6 +28,7 @@ def get_decoded_message(data):
     raise ValueError
 
 
+@log
 def send_message(socket, message):
     """
     Утилита кодирования и отправки сообщения
