@@ -1,21 +1,20 @@
 """ Утилиты """
 
 import json
-from common.variables import MAX_PACKAGE_BYTES, DEFAULT_ENCODING
 
+from common.variables import MAX_PACKAGE_BYTES, DEFAULT_ENCODING
+from errors import IncorrectDataReceivedError, NonDictInputError
 from decos import log
 
 
 @log
 def get_decoded_message(data):
     """
-    Утилита приёма и декодирования сообщения
-    Принимает байты, выдаёт словарь,
+    Утилита приёма и декодирования сообщения: принимает байты, выдаёт словарь,
     если принято что-то другое возвращает ошибку значения
     :param data:
     :return:
     """
-
     encoded_data = data.recv(MAX_PACKAGE_BYTES)
 
     if isinstance(encoded_data, bytes):
@@ -24,20 +23,20 @@ def get_decoded_message(data):
 
         if isinstance(response, dict):
             return response
-        raise ValueError
-    raise ValueError
+        raise IncorrectDataReceivedError
+    raise IncorrectDataReceivedError
 
 
 @log
 def send_message(socket, message):
     """
-    Утилита кодирования и отправки сообщения
-    принимает словарь и отправляет его
+    Утилита кодирования и отправки сообщения: принимает словарь и отправляет его
     :param socket:
     :param message:
     :return:
     """
-
+    if not isinstance(message, dict):
+        raise NonDictInputError
     json_message = json.dumps(message)
     encoded_message = json_message.encode(DEFAULT_ENCODING)
     socket.send(encoded_message)

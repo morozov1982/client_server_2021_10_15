@@ -11,7 +11,7 @@ PATH = os.path.dirname(os.path.abspath(__file__))
 PATH = os.path.join(PATH, 'data', 'client.log')
 
 # <дата-время> <уровеньважности> <имямодуля> <сообщение>
-CLIENT_FORMATTER = logging.Formatter('%(asctime)s - %(levelname)-9s - %(module)s - %(message)s')
+CLIENT_FORMATTER = logging.Formatter('%(asctime)s - %(levelname)-9s - %(filename)s - %(message)s')
 
 # по заданию: "Журналирование должно производиться в лог-файл"
 # поэтому закомментил
