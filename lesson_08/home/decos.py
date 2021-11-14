@@ -18,13 +18,13 @@ else:
     LOGGER = logging.getLogger('server')
 
 
-def log(func):
+def log(func):  # log(func_to_log):
     """ Функция-декоратор для логирования """
-    def log_wrapper(*args, **kwargs):
+    def log_wrapper(*args, **kwargs):  # log_saver
         res = func(*args, **kwargs)
         LOGGER.debug(f'Вызвана функция: {func.__name__}, с параметрами: {args}, {kwargs}. '
                      f'Из модуля: {func.__module__}.'
-                     f'Вызов из функции: {traceback.format_stack()[0].strip().split()[-1]}. '  # копипаста
-                     f'Вызов из функции: {inspect.stack()[1][3]}.')                            # тоже
+                     f'Вызов из функции: {traceback.format_stack()[0].strip().split()[-1]}. '  # копипаста, не стал убирать
+                     f'Вызов из функции: {inspect.stack()[1][3]}.')                            # тоже, не стал убирать
         return res
     return log_wrapper

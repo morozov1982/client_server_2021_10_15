@@ -7,7 +7,7 @@ https://stackoverflow.com/questions/67348716/kill-process-do-not-kill-the-subpro
 import os
 import sys
 import signal
-from subprocess import Popen
+from subprocess import Popen  # дальше меньше писанины ;-)
 from time import sleep
 
 
@@ -36,11 +36,8 @@ while True:
     elif action == 's':
         process.append(get_subprocess('server.py'))
 
-        for _ in range(2):
-            process.append(get_subprocess('client.py -m send'))
-
-        for _ in range(2):
-            process.append(get_subprocess('client.py -m listen'))
+        for i in range(2):
+            process.append(get_subprocess(f'client.py -n user{i+1}'))  # поменял имена на user...
 
     elif action == 'x':
         while process:

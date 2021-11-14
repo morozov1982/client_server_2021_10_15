@@ -2,7 +2,7 @@
 
 from subprocess import Popen, CREATE_NEW_CONSOLE
 
-PROCESS = []
+PROCESSES = []  # теперь во множественном числе
 
 while True:
     ACTION = input('Выберите действие:\n'
@@ -13,15 +13,13 @@ while True:
     if ACTION == 'q':
         break
     elif ACTION == 's':
-        PROCESS.append(Popen('python server.py', creationflags=CREATE_NEW_CONSOLE))
-
-        for _ in range(2):
-            PROCESS.append(Popen('python client.py -m send', creationflags=CREATE_NEW_CONSOLE))
-
-        for _ in range(5):
-            PROCESS.append(Popen('python client.py -m listen', creationflags=CREATE_NEW_CONSOLE))
+        # почти копипаста, немного подсократил за счёт from import
+        PROCESSES.append(Popen('python server.py', creationflags=CREATE_NEW_CONSOLE))
+        PROCESSES.append(Popen('python client.py -n test1', creationflags=CREATE_NEW_CONSOLE))
+        PROCESSES.append(Popen('python client.py -n test2', creationflags=CREATE_NEW_CONSOLE))
+        PROCESSES.append(Popen('python client.py -n test3', creationflags=CREATE_NEW_CONSOLE))
 
     elif ACTION == 'x':
-        while PROCESS:
-            VICTIM = PROCESS.pop()  # ;-)
+        while PROCESSES:
+            VICTIM = PROCESSES.pop()  # ;-)
             VICTIM.kill()           # ;-)
